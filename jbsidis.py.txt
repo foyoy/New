@@ -1,0 +1,389 @@
+#:import style style
+
+#:import toast kivymd.toast.toast
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+
+
+
+Screen:
+    id: rootx
+    ScreenManager:
+        id: J
+        Screen:
+            name: "test"
+            #on_leave:
+            #    app.leave()
+            FloatLayout:
+                id: fl
+                RecycleView:
+                    id: rv5
+                    key_viewclass: "viewclass"
+                    RecycleGridLayout:
+                        id: s56
+                        padding: dp(10)
+                        cols: 2
+                        default_size: None, dp(300)
+                        padding: dp(0), dp(0)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: dp(10)
+                        pos_hint: None, None         
+
+        ScreenCamera:
+
+        Screen:
+            name: "theme"
+            FloatLayout:
+                MDLabel:
+                    id: theme
+                    text: "Toggle to Switch Theme Style"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    text_color: 0, 0, 0, 1,
+                MDSwitch:
+                    active: False
+                    widget_style: "ios"
+                    pos_hint: {'center_x': .5, 'center_y': .4}
+                    on_active: app.switchTheme(self, self.active)
+                        
+
+        Screen:
+            name: "load"
+            BoxLayout:
+##            FloatLayout:   
+##                MDCard:
+##                    orientation: "vertical"
+##                    pos_hint: {'center_x':.5, 'center_y':.5}
+##                    font_style: "H5"
+##                    size_hint: 3.7, 1
+##                    #background: "purple_gradient.png"
+##                    MDLabel:
+##                        id: playorec
+##                        markup: True
+##                        halign: "center"
+##                        text: "Loading,...\n"
+##                    Image:
+##                        id: gif #ON_RELEASE gif.anim_delay=0.01
+##                        source: "eye.gif"
+##                        center: self.parent.center
+##                        size: 200,130
+##                        allow_stretch: True
+##                        anim_delay: 0.05
+##                        anim_loop: 0
+##                        s: 1/30
+    FloatLayout:
+        id: barra
+        Bix:
+
+
+<B_@BoxLayout>:
+    orientation: "vertical"
+    canvas.after:
+        Color:
+            rgba: [0,0,0,0]
+        Line:
+            width: dp(1.2)
+            rounded_rectangle:
+                (self.x, self.y, self.width, self.height+dp(50),\
+                dp(9),dp(9),dp(9),dp(9),\
+                dp(50))
+
+
+<ScreenCamera>:
+    name: "cax"
+    orientation: "vertical"
+    ColourShaderWidget:
+        id: shader_widget
+        CameraDisplayWidget:
+            id: cdw
+            texture: app.texture
+            resolution: app.camera_resolution
+
+<OpenCameraButton>:
+    active: app.current_camera is None and app._camera_permission_state_string not in ("UNKNOWN", "AWAITING_REQUEST_RESPONSE")
+    text: "Press to open camera stream"
+    font_size: dp(23)
+    size_hint: None, None
+    size: self.texture_size[0] + dp(30), self.texture_size[1] + dp(30)
+    opacity: 0 if app.current_camera is not None else 1
+    on_release: app.attempt_stream_camera(app.cameras_to_use[0])
+    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+<CameraDisplayWidget>:
+##    canvas:
+##        Color:
+##            rgba: 1, 1, 1, 1
+##        Rectangle:
+##            pos: self._rect_pos
+##            size: self._rect_size
+##            texture: self.texture
+##            tex_coords: root.tex_coords
+    canvas.before:
+        PushMatrix:
+        Rotate:
+            angle: -90
+            origin: self.center
+        Color:
+            rgba: 0,0,0, 1
+        Rectangle:
+            pos: self._rect_pos #self.pos
+            size: self._rect_size #self.size
+            texture: self.texture
+            tex_coords: root.tex_coords
+    canvas.after:
+        PopMatrix:
+
+#FitImage
+<ImageButton@ButtonBehavior+Image>
+
+<Boxa>:
+    MDSpinner:
+        
+
+<ImageManager>
+    path: ""
+    orientation: "vertical"
+    size_hint_y: None
+    height: root.height
+    padding: dp(10)
+
+
+    ImageButton:
+        source: root.path
+        on_release:
+            app.root.ids.J.current="test"
+            app.barra()
+            app.root.ids.s56.cols=2
+            
+<ImageManagerx>
+    path: ""
+    orientation: "vertical"
+    size_hint_y: None
+    height: root.height
+    padding: dp(10)
+    ImageButton:
+        source: root.path
+        
+<Ja@SmartTileWithLabel>: 
+<K>:
+    MDSpinner:
+        size_hint: None, None
+        size: dp(30), dp(30)
+        color: get_color_from_hex("#0096FF")
+        pos_hint: {'center_x': .5, 'center_y': .5}
+
+
+#:import Clock kivy.clock.Clock
+<I2>:
+    orientation: "vertical"
+
+    ImageButton:
+        source: root.source1
+        on_release:
+            app.test = app.test + "@@" +str(root.type)
+            print(root.type)
+            root.add_widget(app.K())
+            Clock.schedule_once(lambda x:app.mex(root),2)
+        
+
+<Bix>:
+    canvas.before:
+        Color:
+            rgba: [0,0,0,.1]
+        Line:
+            width: dp(0.5)
+            rectangle:
+                (self.x, self.height, self.width, dp(1))
+                 
+    id: bottom_panel
+    size_hint: 1,None
+    height: dp(50) #56
+    elevation: 0
+    md_bg_color: get_color_from_hex("#eeeaea")
+
+    FloatLayout:
+        MDIconButton:
+            pos_hint: {'center_x': .2, 'center_y': .6}
+            markup: True
+            icon: "camera"
+            theme_text_color: "Custom"
+            text_color: [0,0.1888235,0.2039,1]
+            on_release:
+                app.root.ids.J.current="cax"
+                app.barra()
+                
+        MDTextButton:
+            pos_hint: {'center_x': .2, 'center_y': .2}
+            markup: True
+            font_style: "Caption"
+            text: "[color=003034][b][size=14]Live Camera"
+            on_release:
+                app.root.ids.J.current="cax"
+                app.barra()
+
+    FloatLayout:
+        MDIconButton:
+            pos_hint: {'center_x': .5, 'center_y': .6}
+            markup: True
+            icon: "table-headers-eye"
+            theme_text_color: "Custom"
+            text_color: [0,0.1888235,0.2039,1]
+            on_release:
+                app.root.ids.J.current="test"
+                app.testInstruction()
+                #app.visiontest(2)
+        MDTextButton:
+            pos_hint: {'center_x': .5, 'center_y': .2}
+            markup: True
+            font_style: "Caption"
+            text: "[color=003034][b][size=14]Colorblind Test"
+            on_release:
+                app.root.ids.J.current="test"
+                app.testInstruction()
+                #app.visiontest(2)
+
+
+    FloatLayout:
+        MDIconButton:
+            pos_hint: {'center_x': .8, 'center_y': .6}
+            markup: True
+            icon: "theme-light-dark"
+            theme_text_color: "Custom"
+            text_color: [0,0.1888235,0.2039,1]
+            on_release:
+                app.root.ids.J.current="theme"
+        MDTextButton:
+            pos_hint: {'center_x': .8, 'center_y': .2}
+            markup: True
+            font_style: "Caption"
+            text: "[color=003034][b][size=14]Theme"
+            on_release:
+                app.root.ids.J.current="theme"
+
+
+
+  
+<Bx2>:
+    canvas.before:
+        Color:
+            rgba: [0,0,0,.1]
+        Line:
+            width: dp(0.5)
+            rectangle:
+                (self.x, self.height, self.width, dp(1))
+                 
+    id: bottom_panel
+    size_hint: 1,None
+    height: dp(50) #56
+    elevation: 0
+    md_bg_color: get_color_from_hex("#eeeaea")
+
+    FloatLayout:
+        MDIconButton:
+            pos_hint: {'center_x': .1, 'center_y': .6}
+            markup: True
+            icon: "alpha-n-circle-outline"
+            theme_text_color: "Custom"
+            text_color: [0,0.1888235,0.2039,1]
+            on_release:
+                app.root.ids.J.current="cax"
+                app.root.ids.J.get_screen("cax").ids.shader_widget.transformation = 'none'
+                toast("Normal")
+        MDTextButton:
+            pos_hint: {'center_x': .1, 'center_y': .2}
+            markup: True
+            font_style: "Caption"
+            text: "[color=003034][b][size=14]Normal"
+            on_release:
+                toast("Normal")
+                app.root.ids.J.current="cax"
+                app.root.ids.J.get_screen("cax").ids.shader_widget.transformation = 'none'
+
+    FloatLayout:
+        MDIconButton:
+            pos_hint: {'center_x': .3, 'center_y': .6}
+            markup: True
+            icon: "alpha-p-circle-outline"
+            theme_text_color: "Custom"
+            text_color: [0,0.1888235,0.2039,1]
+            on_release:
+                app.root.ids.J.current="cax"
+                app.root.ids.J.get_screen("cax").ids.shader_widget.transformation = 'protanopia'
+                toast("Protanopia")
+        MDTextButton:
+            pos_hint: {'center_x': .3, 'center_y': .2}
+            markup: True
+            font_style: "Caption"
+            text: "[color=003034][b][size=14]Protanopia"
+            on_release:
+                app.root.ids.J.current="cax"
+                app.root.ids.J.get_screen("cax").ids.shader_widget.transformation = 'protanopia'
+                toast("Protanopia")
+
+
+    FloatLayout:
+        MDIconButton:
+            pos_hint: {'center_x': .5, 'center_y': .6}
+            markup: True
+            icon: "alpha-d-circle-outline"
+            theme_text_color: "Custom"
+            text_color: [0,0.1888235,0.2039,1]
+            on_release:
+                app.root.ids.J.current="cax"
+                app.root.ids.J.get_screen("cax").ids.shader_widget.transformation = 'deuteranopia'
+                toast("Deuteranopia")
+
+        MDTextButton:
+            pos_hint: {'center_x': .5, 'center_y': .2}
+            markup: True
+            font_style: "Caption"
+            text: "[color=003034][b][size=14]Deuteranopia"
+            on_release:
+                app.root.ids.J.current="cax"
+                app.root.ids.J.get_screen("cax").ids.shader_widget.transformation = 'deuteranopia'
+                toast("Deuteranopia")
+
+            
+    FloatLayout:
+        MDIconButton:
+            pos_hint: {'center_x': .7, 'center_y': .6}
+            icon: "alpha-t-circle-outline"
+            theme_text_color: "Custom"
+            text_color: [0,0.1888235,0.2039,1]
+            on_release:
+                app.root.ids.J.current="cax"
+                app.root.ids.J.get_screen("cax").ids.shader_widget.transformation = 'tritanopia'
+                toast("Tritanopia")
+
+        MDTextButton:
+            pos_hint: {'center_x': .7, 'center_y': .2}
+            markup: True
+            font_style: "Caption"
+            text: "[color=003034][b][size=14]Tritanopia"
+            on_release:
+                app.root.ids.J.current="cax"
+                app.root.ids.J.get_screen("cax").ids.shader_widget.transformation = 'tritanopia'
+                toast("Tritanopia")
+
+            
+    FloatLayout:
+        MDIconButton:
+            pos_hint: {'center_x': .9, 'center_y': .6}
+            icon: "keyboard-return"
+            theme_text_color: "Custom"
+            text_color: [0,0.1888235,0.2039,1]
+            on_release:
+                app.root.ids.J.current="theme"
+                app.barra()
+        MDTextButton:
+            pos_hint: {'center_x': .9, 'center_y': .2}
+            markup: True
+            font_style: "Caption"
+            text: "[color=003034][b][size=14]Back"
+            on_release:
+                app.root.ids.J.current="theme"
+                app.barra()
+
+
+
